@@ -43,27 +43,28 @@ $logs = mysqli_query($conn, "
     LIMIT 50
 ");
 
-// 3 endpoint paling sering diakses (kecuali admin)
+// 3 endpoint paling sering diakses (kecuali admin dan index.php)
 $endpoints_terbanyak = mysqli_query($conn, "
     SELECT endpoint, COUNT(*) AS total
     FROM user_logs l
     JOIN users u ON u.id = l.user_id
-    WHERE u.role != 'admin'
+    WHERE u.role != 'admin' AND endpoint NOT LIKE '%index.php%'
     GROUP BY endpoint
     ORDER BY total DESC
     LIMIT 3
 ");
 
-// 3 endpoint paling jarang diakses (kecuali admin)
+// 3 endpoint paling jarang diakses (kecuali admin dan index.php)
 $endpoints_terjarang = mysqli_query($conn, "
     SELECT endpoint, COUNT(*) AS total
     FROM user_logs l
     JOIN users u ON u.id = l.user_id
-    WHERE u.role != 'admin'
+    WHERE u.role != 'admin' AND endpoint NOT LIKE '%index.php%'
     GROUP BY endpoint
     ORDER BY total ASC
     LIMIT 3
 ");
+
 
 ?>
 <main>
