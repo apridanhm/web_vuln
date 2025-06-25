@@ -51,7 +51,7 @@ $endpoints_terbanyak = mysqli_query($conn, "
     WHERE u.role != 'admin' AND endpoint NOT LIKE '%index.php%'
     GROUP BY endpoint
     ORDER BY total DESC
-    LIMIT 3
+    LIMIT 2
 ");
 
 // 3 endpoint paling jarang diakses (kecuali admin dan index.php)
@@ -62,7 +62,7 @@ $endpoints_terjarang = mysqli_query($conn, "
     WHERE u.role != 'admin' AND endpoint NOT LIKE '%index.php%'
     GROUP BY endpoint
     ORDER BY total ASC
-    LIMIT 3
+    LIMIT 2
 ");
 
 
