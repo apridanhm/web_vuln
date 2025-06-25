@@ -42,6 +42,29 @@ $logs = mysqli_query($conn, "
     ORDER BY l.access_time DESC
     LIMIT 50
 ");
+
+// 3 endpoint paling sering diakses (kecuali admin)
+$endpoints_terbanyak = mysqli_query($conn, "
+    SELECT endpoint, COUNT(*) AS total
+    FROM user_logs l
+    JOIN users u ON u.id = l.user_id
+    WHERE u.role != 'admin'
+    GROUP BY endpoint
+    ORDER BY total DESC
+    LIMIT 3
+");
+
+// 3 endpoint paling jarang diakses (kecuali admin)
+$endpoints_terjarang = mysqli_query($conn, "
+    SELECT endpoint, COUNT(*) AS total
+    FROM user_logs l
+    JOIN users u ON u.id = l.user_id
+    WHERE u.role != 'admin'
+    GROUP BY endpoint
+    ORDER BY total ASC
+    LIMIT 3
+");
+
 ?>
 <main>
 <h2 class="mb-4 text-left"><i class="fas fa-user-shield me-2"></i>Panel Admin</h2>
@@ -65,6 +88,37 @@ $logs = mysqli_query($conn, "
 </div>
 
 <br>
+
+<!-- Statistik Endpoint -->
+<div class="mb-4">
+    <h4 class="text-left"><i class="fas fa-chart-bar me-2"></i>Statistik Endpoint</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <h6>🔝 Endpoint Paling Sering Diakses</h6>
+            <ul class="list-group">
+                <?php while ($row = mysqli_fetch_assoc($endpoints_terbanyak)): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?= htmlspecialchars($row['endpoint']) ?>
+                        <span class="badge bg-success"><?= $row['total'] ?> hit</span>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h6>🔻 Endpoint Paling Jarang Diakses</h6>
+            <ul class="list-group">
+                <?php while ($row = mysqli_fetch_assoc($endpoints_terjarang)): ?>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <?= htmlspecialchars($row['endpoint']) ?>
+                        <span class="badge bg-secondary"><?= $row['total'] ?> hit</span>
+                    </li>
+                <?php endwhile; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
 <!-- Bagian: Log Aktivitas -->
 <div class="mb-4">
     <h4 class="text-left"><i class="fas fa-history me-2"></i>Log Aktivitas Terkini</h4>
@@ -89,7 +143,6 @@ $logs = mysqli_query($conn, "
         </table>
     </div>
 </div>
-
 
 <!-- Bagian: Daftar Semua User -->
 <div class="mb-4">
