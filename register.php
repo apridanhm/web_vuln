@@ -3,16 +3,16 @@ session_start();
 include 'config/db.php';
 
 $page_title = "Register Mahasiswa";
-$success = "";
 $error = "";
+$success = "";
 
+// Proses registrasi
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nim      = $_POST['nim'] ?? '';
     $nama     = $_POST['nama'] ?? '';
     $username = $_POST['username'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Validasi singkat
     if (empty($nim) || empty($nama) || empty($username) || empty($password)) {
         $error = "Semua kolom wajib diisi.";
     } else {
@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $username = mysqli_real_escape_string($conn, $username);
         $hash     = password_hash($password, PASSWORD_DEFAULT);
 
-        // Cek apakah username atau NIM sudah ada
         $check = mysqli_query($conn, "SELECT * FROM users WHERE username='$username' OR nim='$nim'");
         if (mysqli_num_rows($check) > 0) {
             $error = "NIM atau Username sudah digunakan.";
@@ -29,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $query = "INSERT INTO users (nim, nama, username, password, role) 
                       VALUES ('$nim', '$nama', '$username', '$hash', 'user')";
             if (mysqli_query($conn, $query)) {
-                $success = "Registrasi berhasil. Silakan login.";
+                $success = "Registrasi berhasil! kamu akan diarahkan ke halaman login...";
+                // Redirect setelah 10 detik
+                header("refresh:10;url=login.php");
             } else {
                 $error = "Registrasi gagal: " . mysqli_error($conn);
             }
@@ -66,9 +67,30 @@ include 'includes/header.php';
             </form>
 
             <?php if ($error): ?>
-                <div class="alert alert-danger mt-3"><?php echo htmlspecialchars($error); ?></div>
+                <div class="alert alert-danger mt-3 text-center">
+                    <?= htmlspecialchars($error) ?>
+                </div>
             <?php elseif ($success): ?>
-                <div class="alert alert-success mt-3"><?php echo htmlspecialchars($success); ?></div>
+                <div id="successAlert" class="alert alert-success mt-3 text-center"
+                    style="background-color:#00ff99; color:#000; font-weight:bold; border: 1px solid #00ff99; box-shadow: 0 0 10px #00ff99;">
+                    <?= htmlspecialchars($success) ?> <br>
+                    Mengalihkan ke halaman login dalam <span id="countdown">10</span> detik...
+                </div>
+
+                <script>
+                    let seconds = 10;
+                    const countdownEl = document.getElementById('countdown');
+
+                    const timer = setInterval(() => {
+                        seconds--;
+                        countdownEl.textContent = seconds;
+                        if (seconds <= 0) {
+                            clearInterval(timer);
+                            window.location.href = "login.php";
+                        }
+                    }, 1000);
+                </script>
+
             <?php endif; ?>
         </div>
     </div>

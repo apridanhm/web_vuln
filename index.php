@@ -32,6 +32,9 @@ include 'includes/header.php';
             <a href="modules/find_the_flag.php" class="list-group-item list-group-item-action">
                 <i class="fas fa-flag me-2"></i> Capture the Flag
             </a>
+            <a href="modules/sql_injection.php" class="list-group-item list-group-item-action">
+                <i class="fas fa-database me-2"></i> SQL Injection
+            </a>
         </div>
 
         <?php if ($_SESSION['role'] === 'admin'): ?>
