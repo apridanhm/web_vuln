@@ -11,11 +11,12 @@ include 'includes/header.php';
 
 <div class="text-center">
     <h2 class="mb-3">Welcome, <span class="text-primary"><?= htmlspecialchars($_SESSION['username']); ?></span>!</h2>
-    <p class="lead">Select a vulnerable module to test:</p>
+    <p class="lead">Pilih aja bebas:</p>
 </div>
 
 <div class="row justify-content-center mt-4">
     <div class="col-md-6">
+        <h5 style="color:#00ff99;"><i class="fas fa-flask me-2"></i>Modul</h5>
         <div class="list-group">
             <a href="modules/command_injection.php" class="list-group-item list-group-item-action">
                 <i class="fas fa-terminal me-2"></i> Command Injection
@@ -37,6 +38,16 @@ include 'includes/header.php';
             </a>
         </div>
 
+        <div class="mt-4">
+            <h5 style="color:#00ff99;"><i class="fas fa-toolbox me-2"></i>Alat Bantu</h5>
+            <div class="list-group">
+                <a href="modules/base64_tool.php" class="list-group-item list-group-item-action">
+                    <i class="fas fa-random me-2"></i> Base64 Encode/Decode
+                </a>
+            </div>
+        </div>
+
+
         <?php if ($_SESSION['role'] === 'admin'): ?>
             <div class="mt-4 text-center">
                 <a href="admin_panel.php" class="btn btn-outline-warning">
@@ -44,6 +55,7 @@ include 'includes/header.php';
                 </a>
             </div>
         <?php endif; ?>
+
 
         <div class="d-grid mt-3">
             <a href="logout.php" class="btn btn-outline-danger">

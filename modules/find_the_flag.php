@@ -34,10 +34,8 @@ include '../includes/header.php';
     </div>
 </div>
 
-<!-- Hint 1: Mudah (base64) -->
-<div style="display:none;" data-flag="RkxBR3tJTklfWUFOR19HQU1QQU5HX0NBUklfTEFHSV9TQU5BX1dLV0tXS1d9"></div>
+<div style="display:none;" 91br4n_454m5ulf4t="RkxBR3tJTklfWUFOR19HQU1QQU5HX0NBUklfTEFHSV9TQU5BX1dLV0tXS1d9"></div>
 
-<!-- Hint 2: Lebih Sulit (JavaScript Obfuscated Base64) -->
 <script>
 
 (function(){
