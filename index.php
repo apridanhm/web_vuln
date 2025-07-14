@@ -66,3 +66,8 @@ include 'includes/header.php';
 </div>
 
 <?php include 'includes/footer.php'; ?>
+<a href="modules/upload_responsi.php" 
+   style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;" 
+   class="btn btn-success rounded-pill shadow-lg">
+   <i class="fas fa-file-upload me-1"></i> Upload Hasil Responsi
+</a>
